@@ -1,0 +1,72 @@
+
+repeat task.wait() until game:IsLoaded()
+--funcs
+function cleanshit()
+    if not getgenv().autocleanshit then
+        return
+    end
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-78, 9, -17)
+    wait(1)
+    fireproximityprompt(game:GetService("Workspace")["Litter Box"].Poop.ProximityPrompt)
+end
+function save()
+    if not getgenv().autosave then
+        return
+    end
+    game:GetService("Workspace")["Floppy Disk"].CanCollide = false
+    game:GetService("Workspace")["Floppy Disk"].Transparency = 1
+    game:GetService("Workspace")["Floppy Disk"] = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+    wait(1)
+    fireproximityprompt(game:GetService("Workspace")["Floppy Disk"].ProximityPrompt)
+end
+
+function buyfood()
+    task.wait(.5)
+    game:GetService("ReplicatedStorage").Purchase:FireServer("Floppa Food")
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-41, 8, -18)
+    task.wait(1)
+    fireproximityprompt(game:GetService("Workspace").Bowl.Part.ProximityPrompt)
+end
+--end funcs
+pcall(function()
+    game:GetService("Workspace")["Floppy Disk"].ProximityPrompt["Save Sound"]:Destroy()
+end)
+spawn(function()
+    while getgenv().autoshitcolmoney do
+        task.wait()
+        fireclickdetector(game:GetService("Workspace").Floppa.ClickDetector)
+        pcall(function()
+            firetouchinterest(
+                game:GetService("Workspace").Money,
+                game.Players.LocalPlayer.Character.HumanoidRootPart,
+                0
+            )
+            firetouchinterest(
+                game:GetService("Workspace")["Money Bag"],
+                game.Players.LocalPlayer.Character.HumanoidRootPart,
+                0
+        )
+        end)
+    end
+end)
+
+spawn(function()
+    while getgenv().autobuyfood do task.wait()
+        if game:GetService("Workspace").Floppa.Configuration.Hunger.Value <= 20 then
+            buyfood()
+            repeat task.wait() until game:GetService("Workspace").Floppa.Configuration.Hunger.Value >= 20
+        end
+    end
+end)
+
+spawn(function()
+    while wait(10) do
+        save()
+    end
+end)
+if game:GetService("Workspace")["Litter Box"]:FindFirstChild("Poop") then
+    cleanshit()
+end
+game:GetService("Workspace")["Litter Box"].ChildAdded:connect(function()
+    cleanshit()
+end)
