@@ -10,4 +10,4 @@ getgenv().codetbl = {
 for i,v in pairs(getgenv().codetbl) do
 game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(v, "All")
 wait(3)
-end)
+end
