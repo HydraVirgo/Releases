@@ -1,10 +1,10 @@
 getgenv().codetbl = {
-"FREEMONEY"
-"EVENRICHER"
-"NEWPOWER"
-"ANOTHERWIPE"
-"THANKYOU"
-"XPBOOST"
+"FREEMONEY",
+"EVENRICHER",
+"NEWPOWER",
+"ANOTHERWIPE",
+"THANKYOU",
+"XPBOOST",
 "FREEWIPE"
 }
 for i,v in pairs(getgenv().codetbl) do
