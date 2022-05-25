@@ -1,0 +1,13 @@
+getgenv().codetbl = {
+"FREEMONEY"
+"EVENRICHER"
+"NEWPOWER"
+"ANOTHERWIPE"
+"THANKYOU"
+"XPBOOST"
+"FREEWIPE"
+}
+for i,v in pairs(getgenv().codetbl) do
+game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(v, "All")
+wait(3)
+end)
