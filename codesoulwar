@@ -7,7 +7,4 @@ getgenv().codetbl = {
 "XPBOOST",
 "FREEWIPE"
 }
-for i,v in pairs(getgenv().codetbl) do
-game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("!code "..v, "All")
-wait(3)
-end
+
