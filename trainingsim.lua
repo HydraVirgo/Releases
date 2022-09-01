@@ -43,7 +43,7 @@ task.spawn(function()
         end
     end
 end)
-section1:addToggle("Auto Treadmil", false, function(val)
+section1:addToggle("Auto Treadmill", false, function(val)
     if val then
         getgenv().autowalk = val
         local part = Instance.new("Part")
@@ -84,14 +84,13 @@ part.Name = "invpart"
 for i=0, 3 do
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25294.0156, 597.230286, -8559.00391, -0.896095932, 1.55838009e-08, 0.443860382, 2.59980126e-08, 1, 1.73768875e-08, -0.443860382, 2.71108469e-08, -0.896095932)
     task.wait(.5)
+    game.Players.LocalPlayer.Character.Humanoid.Jump = true
 end
-game.Players.LocalPlayer.Character.Humanoid.Jump = true
-task.wait(.5)
-game.Players.LocalPlayer.Character.Humanoid.Jump = true
-game:GetService("VirtualInputManager"):SendKeyEvent(true,"S",false,game)
+
+game:GetService("VirtualInputManager"):SendKeyEvent(true,"W",false,game)
     else
         getgenv().autowalk = val
-        game:GetService("VirtualInputManager"):SendKeyEvent(false,"S",false,game)
+        game:GetService("VirtualInputManager"):SendKeyEvent(false,"W",false,game)
         for _,v in pairs(game.Workspace:GetChildren()) do
             if v.Name == "invpart" then
                 v:Destroy()
@@ -102,7 +101,7 @@ end)
 task.spawn(function()
     while task.wait(1) do
         if getgenv().autowalk then
-            game:GetService("VirtualInputManager"):SendKeyEvent(true,"S",false,game)
+            game:GetService("VirtualInputManager"):SendKeyEvent(true,"W",false,game)
         end
     end
 end)
