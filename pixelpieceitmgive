@@ -1,4 +1,4 @@
-game:GetService("ReplicatedStorage").Files.Remotes.SinglePlayers.WyvLich.Inventory:FireServer({
+game:GetService("ReplicatedStorage").Files.Remotes.SinglePlayers[game.Players.LocalPlayer].Inventory:FireServer({
 	["Call"] = "InteractItem",
 	["itemName"] = itemname,
 	["itemIsa"] = itemtype,
