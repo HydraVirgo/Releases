@@ -1,0 +1,115 @@
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/GreenDeno/Venyx-UI-Library/main/source.lua"))()
+guiname = "Chewy Custom"
+local venyx = library.new(guiname, 5013109572)
+    local workspace = game:GetService("Workspace")
+    local camera = workspace.CurrentCamera
+venyx:Notify(guiname, guiname .. " has been loaded.")
+function notif(tit, tex)
+    venyx:Notify(tit, tex) 
+end
+local themes = {
+    Background = Color3.fromRGB(24, 24, 24),
+    Glow = Color3.fromRGB(0, 0, 0),
+    Accent = Color3.fromRGB(10, 10, 10),
+    LightContrast = Color3.fromRGB(20, 20, 20),
+    DarkContrast = Color3.fromRGB(14, 14, 14),  
+    TextColor = Color3.fromRGB(255, 255, 255)
+    }
+    local function ESP(obj)
+        local part = obj
+    
+        local trin = Drawing.new("Text")
+        trin.Size = 18
+        trin.Center = true 
+        trin.Outline = true
+        trin.Visible = false
+        trin.Font = 0
+        trin.Color = Color3.fromRGB(141, 255, 126)
+        
+        local function updater()
+            local connection 
+            connection = game:GetService("RunService").RenderStepped:Connect(function()
+                local destroyed = not part:IsDescendantOf(workspace)
+                local pos, onscreen = camera:WorldToViewportPoint(part.Position)
+                name = obj.Parent.Name
+
+                if getgenv().plresp then
+                    trin.Text = "[" .. name .."]\n" .. "Health: [" .. math.floor(obj.Parent.Humanoid.Health) .."/"..math.floor(obj.Parent.Humanoid.MaxHealth).."]\n".."[" .. math.floor(game.Players.LocalPlayer:DistanceFromCharacter(obj.Parent.HumanoidRootPart.Position)) .. "]\n"
+                else
+                    trin.Text = ""
+                end
+                pcall(function()
+                    if onscreen then
+                        trin.Position = Vector2.new(pos.X, pos.Y)
+                        trin.Visible = true
+                    else
+                        trin.Visible = false
+                    end
+                    if destroyed and trin ~= nil then 
+                        trin:Remove()
+                    end
+                end)
+            end)
+        end
+        coroutine.wrap(updater)()
+    end
+local plrs = venyx:addPage("Players", 5012544693)
+p1 = plrs:addSection("Players")
+ptable = {}
+for i,v in pairs(game.Players:GetChildren()) do
+    if v:IsA("Player") then 
+        table.insert(ptable, v.Name)
+    end
+end
+game.Players.PlayerAdded:Connect(function(player)
+        table.insert(ptable, player.Name)
+        p1:updateDropdown(plrdrop, "SelectPlayer", ptable)
+end)
+game.Players.PlayerRemoving:Connect(function(player)
+    if player:IsA("Player") then
+        for i,v in pairs(ptable) do
+            if v == player.Name then
+                table.remove(ptable, i)
+            end
+        end
+    end
+    p1:updateDropdown(plrdrop, "SelectPlayer", ptable)
+end)
+
+local plrdrop = p1:addDropdown("SelectPlayer", ptable, function(v)
+    getgenv().chosenplr = v
+end)
+p1:addButton("Teleport", function()
+	pcall(function()
+		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players[getgenv().chosenplr].Character.HumanoidRootPart.CFrame
+	end)
+end)
+p1:addToggle("Player ESP", false, function(v)
+    getgenv().plresp = v
+    if v then
+            for _, plr in pairs(game.Players:GetChildren()) do
+                if plr ~= game.Players.LocalPlayer and plr ~= game.Players.LocalPlayer.Character then
+                    pcall(function()
+                        ESP(plr.Character:WaitForChild("Head"))
+                    end)
+                end
+            end
+    end
+end)
+task.spawn(function()
+        game.Players.PlayerAdded:Connect(function(v)
+            if not getgenv().plresp then return end
+            if v ~= game.Players.LocalPlayer and v ~= game.Players.LocalPlayer.Character and v then
+                v.CharacterAdded:Connect(function(pp)
+                    ESP(pp:WaitForChild("Head"))  
+                end)
+            end
+        end)
+    end)
+    for _,v in pairs(game.Players:GetPlayers()) do
+        v.CharacterAdded:Connect(function(v)
+            if v~= game.Players.LocalPlayer.Character then
+                ESP(v:WaitForChild("Head"))
+            end
+        end)
+    end
