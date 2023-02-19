@@ -1,0 +1,181 @@
+local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
+getgenv().interval = 1
+local plr = game.Players.LocalPlayer
+local char = plr.Character or plr:WaitForChild("Character")
+game:GetService("Players").LocalPlayer.Idled:connect(function()
+    if not getgenv().aafk then return end
+    game:GetService("VirtualUser"):ClickButton2(Vector2.new())
+end)
+local player = game.Players.LocalPlayer
+
+
+getgenv().threshold = 30
+getgenv().playerLimit = 2
+
+
+local nearbyPlayers = {}
+task.spawn(function()
+    while task.wait(1) do
+for _, otherPlayer in pairs(game.Players:GetPlayers()) do    
+        local distance = (player.Character.HumanoidRootPart.Position - otherPlayer.Character.HumanoidRootPart.Position).magnitude
+        if distance <= threshold and otherPlayer ~= player then
+            if not table.find(nearbyPlayers, otherPlayer) then
+                
+                table.insert(nearbyPlayers, otherPlayer)
+                
+                if #nearbyPlayers >= playerLimit then
+                    break
+                end
+            end
+        end
+    end
+end
+end)
+    
+    nearbyPlayers = {}
+    
+local Window = Rayfield:CreateWindow({
+   Name = "Space Custom",
+   LoadingTitle = "Rayfield Interface Suite",
+   LoadingSubtitle = "by Sirius",
+   ConfigurationSaving = {
+      Enabled = true,
+      FolderName = nil, 
+      FileName = "Big Hub"
+   },
+   Discord = {
+      Enabled = false,
+      Invite = "lofiware", 
+      RememberJoins = true
+   },
+   KeySystem = false,
+   KeySettings = {
+      Title = "lofiware",
+      Subtitle = "Key System",
+      Note = "Join the discord (discord.gg/lofiware)",
+      FileName = "lofiware",
+      SaveKey = true,
+      GrabKeyFromSite = false, 
+      Key = "Hello"
+   }
+})
+
+local Tab = Window:CreateTab("Main", 4483362458)
+local Section = Tab:CreateSection("Features")
+Rayfield:Notify({
+   Title = "heyy",
+   Content = "hi space thanks for buying",
+   Duration = 6.5,
+   Image = 4483362458,
+   Actions = { 
+      Ignore = {
+         Name = "hi",
+         Callback = function()
+      end
+   },
+},
+})
+local Toggle = Tab:CreateToggle({
+   Name = "Coin Farm",
+   CurrentValue = false,
+   Flag = "Toggle1", 
+   Callback = function(Value)
+        getgenv().cf = Value
+   end,
+})
+task.spawn(function()
+    while true do task.wait(.5)
+        if getgenv().cf then
+            game:GetService("ReplicatedStorage").Events.CoinEvent:FireServer()
+        end
+        if getgenv().df then
+            game:GetService("ReplicatedStorage").jdskhfsIIIllliiIIIdchgdIiIIIlIlIli:FireServer(workspace.MAP["5k_dummies"].Dummy2.Humanoid, 50)
+        end
+    end
+end)
+local Toggle = Tab:CreateToggle({
+    Name = "Dummy Farm",
+    CurrentValue = false,
+    Flag = "Toggle2", 
+    Callback = function(Value)
+         getgenv().df = Value     
+    end,
+ })
+local Toggle = Tab:CreateToggle({
+    Name = "Hide Name",
+    CurrentValue = false,
+    Flag = "Toggle3", 
+    Callback = function(Value)
+        getgenv().togval = Value
+        if Value then
+        pcall(function()
+            game.Players.LocalPlayer.Character.Head.BillboardGui:Destroy()    
+        end)
+    end
+    end,
+ })
+ local Toggle = Tab:CreateToggle({
+    Name = "Anti-AFK",
+    CurrentValue = false,
+    Flag = "Toggle4", 
+    Callback = function(Value)
+        getgenv().aafk = Value
+    end,
+ })
+ game.Players.LocalPlayer.CharacterAdded:Connect(function(chr)
+    if not getgenv().togval then return end
+    chr.Head:WaitForChild("BillboardGui"):Destroy()
+ end)
+ Tab:CreateToggle({
+    Name = "Kill-Aura",
+    CurrentValue = false,
+    Flag = "Toggle5", 
+    Callback = function(Value)
+         getgenv().ka = Value
+    end,
+ })
+ game:GetService("RunService").Heartbeat:Connect(function()
+    if not getgenv().ka then return end
+    if next(nearbyPlayers) == nil then return end
+    for _,v in pairs(nearbyPlayers) do
+        pcall(function()
+            game:GetService("ReplicatedStorage").jdskhfsIIIllliiIIIdchgdIiIIIlIlIli:FireServer(v.Character.Humanoid, 3)
+        end)
+    end
+ end)
+Tab:CreateSlider({
+    Name = "Distance",
+    Range = {1, 30},
+    Increment = 1,
+    Suffix = "studs",
+    CurrentValue = 1,
+    Flag = "Slider2", 
+    Callback = function(Value)
+     getgenv().threshold = Value   
+    end,
+ })
+ Tab:CreateSlider({
+    Name = "Threshold",
+    Range = {1, 5},
+    Increment = 1,
+    Suffix = "players",
+    CurrentValue = 1,
+    Flag = "Slider3", 
+    Callback = function(Value)
+     getgenv().playerLimit = Value   
+    end,
+ })
+
+ local Toggle = Tab:CreateToggle({
+    Name = "Hatfling",
+    CurrentValue = false,
+    Flag = "Toggle4", 
+    Callback = function(v)
+        if v then
+            loadstring(game:HttpGet('https://github.com/DigitalityScripts/roblox-scripts/raw/main/loop%20fling%20all'))()
+        else
+            game.Players.LocalPlayer.Character.Humanoid.Health = 0
+            game.Players.LocalPlayer.Character:Destroy()
+        end
+    end,
+ })
