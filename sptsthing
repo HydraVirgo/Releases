@@ -15,6 +15,7 @@ local themes = {
     DarkContrast = Color3.fromRGB(14, 14, 14),  
     TextColor = Color3.fromRGB(255, 255, 255)
     }
+
     local function ESP(obj)
         local part = obj
     
@@ -31,7 +32,9 @@ local themes = {
             connection = game:GetService("RunService").RenderStepped:Connect(function()
                 local destroyed = not part:IsDescendantOf(workspace)
                 local pos, onscreen = camera:WorldToViewportPoint(part.Position)
-                name = obj.Parent.Name
+                pcall(function()
+                    name = obj.Parent.Name
+                end)
 
                 if getgenv().plresp then
                     trin.Text = "[" .. name .."]\n" .. "Health: [" .. math.floor(obj.Parent.Humanoid.Health) .."/"..math.floor(obj.Parent.Humanoid.MaxHealth).."]\n".."[" .. math.floor(game.Players.LocalPlayer:DistanceFromCharacter(obj.Parent.HumanoidRootPart.Position)) .. "]\n"
@@ -96,6 +99,19 @@ p1:addToggle("Player ESP", false, function(v)
             end
     end
 end)
+for _,v in pairs(game:GetService("Workspace").Map.Training_Collisions:GetChildren()) do
+    local childNames = {}
+    local child_table = {}
+    for _,child in pairs(v:GetChildren()) do
+        table.insert(childNames, child.Name)
+        child_table[child.Name] = child.CFrame
+    end
+    p1:addDropdown(v.Name, childNames, function(e)
+        local selectedCFrame = child_table[e]
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = selectedCFrame
+    end)
+end
+
 task.spawn(function()
         game.Players.PlayerAdded:Connect(function(v)
             if not getgenv().plresp then return end
