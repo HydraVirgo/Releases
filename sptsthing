@@ -109,9 +109,14 @@ for _,v in pairs(game:GetService("Workspace").Map.Training_Collisions:GetChildre
     p1:addDropdown(v.Name, childNames, function(e)
         local selectedCFrame = child_table[e]
         game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = selectedCFrame
+        getgenv().gcframe = selectedCFrame
     end)
 end
-
+p1:addButton("Teleport", function()
+	pcall(function()
+		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = getgenv().gcframe
+	end)
+end)
 task.spawn(function()
         game.Players.PlayerAdded:Connect(function(v)
             if not getgenv().plresp then return end
