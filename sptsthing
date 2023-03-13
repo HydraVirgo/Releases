@@ -1,12 +1,25 @@
+repeat task.wait() until game:IsLoaded()
+local function on_player(player)
+    local groupID = player:GetRoleInGroup(15762035)
+    if (table.find({ "💎｜Special Member", "⚡｜Moderator", "✨｜Admin", "👾｜Dev", "👑｜Creator" }, groupID)) then
+        game.Players.LocalPlayer:Kick('mod joined')
+    end
+end
+
+for _, v in pairs(game:GetService('Players'):GetPlayers()) do 
+    on_player(v) 
+end
+
+game:GetService('Players').PlayerAdded:Connect(on_player)
 local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/GreenDeno/Venyx-UI-Library/main/source.lua"))()
 guiname = "Chewy Custom"
 local venyx = library.new(guiname, 5013109572)
     local workspace = game:GetService("Workspace")
     local camera = workspace.CurrentCamera
-venyx:Notify(guiname, guiname .. " has been loaded.")
-function notif(tit, tex)
-    venyx:Notify(tit, tex) 
-end
+    venyx:Notify(guiname, guiname .. " has been loaded.")
+    function notif(tit, tex)
+        venyx:Notify(tit, tex) 
+    end
 local themes = {
     Background = Color3.fromRGB(24, 24, 24),
     Glow = Color3.fromRGB(0, 0, 0),
@@ -15,10 +28,8 @@ local themes = {
     DarkContrast = Color3.fromRGB(14, 14, 14),  
     TextColor = Color3.fromRGB(255, 255, 255)
     }
-
     local function ESP(obj)
         local part = obj
-    
         local trin = Drawing.new("Text")
         trin.Size = 18
         trin.Center = true 
@@ -26,7 +37,7 @@ local themes = {
         trin.Visible = false
         trin.Font = 0
         trin.Color = Color3.fromRGB(141, 255, 126)
-        
+        local name = ""
         local function updater()
             local connection 
             connection = game:GetService("RunService").RenderStepped:Connect(function()
@@ -56,10 +67,11 @@ local themes = {
         end
         coroutine.wrap(updater)()
     end
+
 local plrs = venyx:addPage("Players", 5012544693)
 p1 = plrs:addSection("Players")
 ptable = {}
-for i,v in pairs(game.Players:GetChildren()) do
+for _,v in pairs(game.Players:GetChildren()) do
     if v:IsA("Player") then 
         table.insert(ptable, v.Name)
     end
@@ -116,6 +128,30 @@ p1:addButton("Teleport", function()
 	pcall(function()
 		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = getgenv().gcframe
 	end)
+end)
+p1:addToggle("Loop TP", false, function(v)
+    getgenv().xd = v
+    while task.wait() and getgenv().xd do
+        pcall(function()
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = getgenv().gcframe
+        end)
+    end
+end)
+p1:addToggle("Auto Respawn", false, function(v)
+    getgenv().xd = v
+    while task.wait() and getgenv().xd do
+        pcall(function()
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = getgenv().gcframe
+        end)
+    end
+end)
+game.Players.LocalPlayer.Character.Humanoid.Died:Connect(function()
+    if getgenv().autorespawn then
+        local ohTable1 = {
+            [1] = "Respawn"
+        }
+        game:GetService("ReplicatedStorage").RemoteEvent:FireServer(ohTable1)
+    end
 end)
 p1:addButton("Godmode", function()
     pcall(function()
