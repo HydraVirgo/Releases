@@ -138,21 +138,22 @@ p1:addToggle("Loop TP", false, function(v)
     end
 end)
 p1:addToggle("Auto Respawn", false, function(v)
-    getgenv().xd = v
-    while task.wait() and getgenv().xd do
+    getgenv().ar = v
+    while task.wait() and getgenv().ar do
         pcall(function()
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = getgenv().gcframe
         end)
     end
 end)
 game.Players.LocalPlayer.Character.Humanoid.Died:Connect(function()
-    if getgenv().autorespawn then
+    if getgenv().ar then
         local ohTable1 = {
             [1] = "Respawn"
         }
         game:GetService("ReplicatedStorage").RemoteEvent:FireServer(ohTable1)
     end
 end)
+
 p1:addButton("Godmode", function()
     pcall(function()
     local speaker = game.Players.LocalPlayer
