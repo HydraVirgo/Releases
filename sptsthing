@@ -160,7 +160,7 @@ others:addToggle("Auto Invis", false, function(v)
     end
 end)
 task.spawn(function()
-    while task.wait(1) do
+    while task.wait(.5) do
         if getgenv().autoinv then
             if game.Players.LocalPlayer.Character.Head.Transparency == 0 then
                 task.wait(1)
