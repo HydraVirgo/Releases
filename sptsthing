@@ -206,16 +206,17 @@ game.Players.LocalPlayer.CharacterAdded:Connect(function()
         end)
     end
     if getgenv().ha then
+        local character = game.Players.LocalPlayer.Character
         character:WaitForChild("Humanoid")
-        local accessories = character:WaitForChild("Accessories")
-        for _,v in pairs(accessories:GetChildren()) do
-            v:Destroy()
+        for _,v in pairs(character:GetChildren()) do
+            if v:IsA("Accessory") then
+                v:Destroy()
+            end
         end
         local shirt = character:WaitForChild("Shirt")
         shirt:Destroy()
         local pants = character:WaitForChild("Pants")
         pants:Destroy()
-
         local bodyColors = character:WaitForChild("BodyColors")
         bodyColors:Destroy()
     end
