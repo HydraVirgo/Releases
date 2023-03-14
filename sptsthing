@@ -163,7 +163,7 @@ others:addToggle("Auto Invis", false, function(v)
     end
 end)
 task.spawn(function()
-    while task.wait() do
+    while task.wait(.5) do
         if getgenv().autoinv then
             if game.Players.LocalPlayer.Character.Head.Transparency == 0 then
                 task.wait(1)
@@ -171,15 +171,6 @@ task.spawn(function()
                     [1] = "Skill_Invisible"
                 })
             end
-        end
-        if getgenv().ha then
-            pcall(function()
-                for _,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
-                    if v:IsA("Accessory") or v:IsA("Shirt") or v:IsA("Pants") or v:IsA("Clothing") or v:IsA("BodyColors") then
-                        v:Destroy()
-                    end
-                end
-            end)
         end
     end
 end)
@@ -205,16 +196,29 @@ game.Players.LocalPlayer.CharacterAdded:Connect(function()
         game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart"):WaitForChild("SPTS_RK_BG"):Destroy()
         game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart"):WaitForChild("SPTS_PN_BG"):Destroy()
     end
-end)
-task.spawn(function()
-    game:GetService("RunService").Heartbeat:Connect(function()
-        if getgenv().hn then
-            pcall(function()
-                game.Players.LocalPlayer.Character.HumanoidRootPart.SPTS_RK_BG:Destroy()
-                game.Players.LocalPlayer.Character.HumanoidRootPart.SPTS_PN_BG:Destroy()
-            end)
+    if getgenv().ha then
+        pcall(function()
+            for _,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+                if v:IsA("Accessory") or v:IsA("Shirt") or v:IsA("Pants") or v:IsA("Clothing") or v:IsA("BodyColors") then
+                    v:Destroy()
+                end
+            end
+        end)
+    end
+    if getgenv().ha then
+        character:WaitForChild("Humanoid")
+        local accessories = character:WaitForChild("Accessories")
+        for _,v in pairs(accessories:GetChildren()) do
+            v:Destroy()
         end
-    end)
+        local shirt = character:WaitForChild("Shirt")
+        shirt:Destroy()
+        local pants = character:WaitForChild("Pants")
+        pants:Destroy()
+
+        local bodyColors = character:WaitForChild("BodyColors")
+        bodyColors:Destroy()
+    end
 end)
 others:addToggle("Hide Avatar", false, function(v)
     getgenv().ha = v
