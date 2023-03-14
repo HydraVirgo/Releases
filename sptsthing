@@ -172,12 +172,6 @@ task.spawn(function()
                 })
             end
         end
-        if getgenv().hn then
-            pcall(function()
-                game.Players.LocalPlayer.Character.HumanoidRootPart.SPTS_RK_BG:Destroy()
-                game.Players.LocalPlayer.Character.HumanoidRootPart.SPTS_PN_BG:Destroy()
-            end)
-        end
         if getgenv().ha then
             pcall(function()
                 for _,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
@@ -199,6 +193,18 @@ game.Players.LocalPlayer.Character.Humanoid.Died:Connect(function()
 end)
 others:addToggle("Hide Name", false, function(v)
     getgenv().hn = v
+    if v then
+        pcall(function()
+            game.Players.LocalPlayer.Character.HumanoidRootPart.SPTS_RK_BG:Destroy()
+            game.Players.LocalPlayer.Character.HumanoidRootPart.SPTS_PN_BG:Destroy()
+        end)
+    end
+end)
+game.Players.LocalPlayer.CharacterAdded:Connect(function()
+    if getgenv().hn then
+        game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart"):WaitForChild("SPTS_RK_BG"):Destroy()
+        game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart"):WaitForChild("SPTS_PN_BG"):Destroy()
+    end
 end)
 others:addToggle("Hide Avatar", false, function(v)
     getgenv().ha = v
