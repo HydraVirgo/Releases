@@ -8,7 +8,9 @@ end
 
 
 for _, v in pairs(game:GetService('Players'):GetPlayers()) do 
-    on_player(v) 
+    if v ~= game.Players.LocalPlayer then
+        on_player(v) 
+    end
 end
 
 game:GetService('Players').PlayerAdded:Connect(on_player)
