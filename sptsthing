@@ -1,10 +1,11 @@
 repeat task.wait() until game:IsLoaded()
 local function on_player(player)
     local groupID = player:GetRoleInGroup(15762035)
-    if (table.find({ "💎｜Special Member", "⚡｜Moderator", "✨｜Admin", "👾｜Dev", "👑｜Creator" }, groupID)) then
+    if (table.find({ "💎｜Special Member", "⚡｜Moderator", "✨｜Admin", "👾｜Dev", "👑｜Creator" }, groupID)) or player:IsInGroup(16817874) then
         game.Players.LocalPlayer:Kick('mod joined')
     end
 end
+
 
 for _, v in pairs(game:GetService('Players'):GetPlayers()) do 
     on_player(v) 
@@ -169,6 +170,21 @@ task.spawn(function()
                 })
             end
         end
+        if getgenv().hn then
+            pcall(function()
+                game.Players.LocalPlayer.Character.HumanoidRootPart.SPTS_RK_BG:Destroy()
+                game.Players.LocalPlayer.Character.HumanoidRootPart.SPTS_PN_BG:Destroy()
+            end)
+        end
+        if getgenv().ha then
+            pcall(function()
+                for _,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+                    if v:IsA("Accessory") or v:IsA("Shirt") or v:IsA("Pants") or v:IsA("Clothing") or v:IsA("BodyColors") then
+                        v:Destroy()
+                    end
+                end
+            end)
+        end
     end
 end)
 game.Players.LocalPlayer.Character.Humanoid.Died:Connect(function()
@@ -179,7 +195,12 @@ game.Players.LocalPlayer.Character.Humanoid.Died:Connect(function()
         game:GetService("ReplicatedStorage").RemoteEvent:FireServer(ohTable1)
     end
 end)
-
+others:addToggle("Hide Name", false, function(v)
+    getgenv().hn = v
+end)
+others:addToggle("Hide Avatar", false, function(v)
+    getgenv().ha = v
+end)
 others:addButton("Godmode", function()
     pcall(function()
     local speaker = game.Players.LocalPlayer
