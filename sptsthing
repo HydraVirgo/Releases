@@ -2,7 +2,7 @@ repeat task.wait() until game:IsLoaded()
 local function on_player(player)
     local groupID = player:GetRoleInGroup(15762035)
     if (table.find({ "💎｜Special Member", "⚡｜Moderator", "✨｜Admin", "👾｜Dev", "👑｜Creator" }, groupID)) or player:IsInGroup(16817874) then
-        game.Players.LocalPlayer:Kick('mod joined')
+        game.Players.LocalPlayer:Kick(tostring(player)..' joined.')
     end
 end
 
