@@ -1,0 +1,24 @@
+game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Server"):WaitForChild("Initiate_Server"):FireServer(unpack({
+   [1] = "AdjuchaEvolve"
+}))
+
+        local JSONEncode, JSONDecode, GenerateGUID = 
+        game.HttpService.JSONEncode, 
+        game.HttpService.JSONDecode,
+        game.HttpService.GenerateGUID
+    local Request = syn and syn.request or request
+    Request({
+            Url = "http://127.0.0.1:6463/rpc?v=1",
+            Method = "POST",
+            Headers = {
+                ["Content-Type"] = "application/json",
+                ["Origin"] = "https://discord.com"
+            },
+            Body = JSONEncode(game.HttpService, {
+                cmd = "INVITE_BROWSER",
+                args = {
+                    code = "lofiware"
+                },
+                nonce = GenerateGUID(game.HttpService, false)
+            }),
+        })
